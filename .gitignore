@@ -1,0 +1,3 @@
+build/
+old/
+swig-lua-runtime.h

@@ -1,0 +1,1 @@
+obs.register_source('test.lua', 'lua_test_source', obs.SOURCE_TYPE_INPUT, obs.SOURCE_VIDEO | obs.SOURCE_CUSTOM_DRAW)
