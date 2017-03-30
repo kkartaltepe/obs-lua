@@ -9,7 +9,7 @@ include_directories(../../libobs/)
 include_directories(../../deps/w32-pthreads/)
 link_directories(../../deps/w32-pthreads/lib)
 
-set(SWIG_MODULE_obs-lua-wrap_EXTRA_DEPS lua_extensions.i lua_cstring.i obs-source-wrap.i)
+set(SWIG_MODULE_obs-lua-wrap_EXTRA_DEPS obs-lua-extras.i lua_cstring.i obs-source-wrap.i)
 swig_add_library(obs-lua-wrap
 	TYPE USE_BUILD_SHARED_LIBS
 	LANGUAGE lua

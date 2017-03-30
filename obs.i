@@ -51,5 +51,5 @@
 %include <graphics/vec4.h>
 
 
-%include "lua_extensions.i"
+%include "obs-lua-extras.i"
 %include "obs-source-wrap.i"

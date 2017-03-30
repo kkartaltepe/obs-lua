@@ -1,3 +1,5 @@
+// Extra ease of use functions for the lua wrapper.
+
 %define %list_from_enum($ENUM)
 %luacode {
 function obs.$ENUM()
