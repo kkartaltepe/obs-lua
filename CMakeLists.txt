@@ -8,6 +8,7 @@ include(${SWIG_USE_FILE})
 include_directories(../../libobs/)
 include_directories(../../deps/w32-pthreads/)
 link_directories(../../deps/w32-pthreads/lib)
+link_directories(../../build/libobs)
 
 set(SWIG_MODULE_obs-lua-wrap_EXTRA_DEPS obs-lua-extras.i lua_cstring.i obs-source-wrap.i)
 swig_add_library(obs-lua-wrap
