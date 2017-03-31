@@ -20,7 +20,7 @@ typedef struct {
 typedef struct {
 	lua_State *L;
 	pthread_mutex_t lock;
-} lua_source_t;
+} lua_source_data_t;
 
 char *obs_lua_source_get_name(void *type_data) {
 	if(type_data)
@@ -40,13 +40,10 @@ void obs_lua_source_free_type_data(void *type_data) {
 	}
 }
 
-void *obs_lua_source_create(obs_data_t *settings, obs_source_t *source, void *void_type_data) {
-	if(!void_type_data) {
-		return NULL;
-	}
-	lua_source_meta_t *type_data = (lua_source_meta_t *)void_type_data;
-	lua_source_t *data = (lua_source_t *)malloc(sizeof(lua_source_t));
-	memset(data, 0, sizeof(lua_source_t));
+void *obs_lua_source_create(obs_data_t *settings, obs_source_t *source) {
+	lua_source_meta_t *type_data = (lua_source_meta_t *)obs_source_get_type_data(source);
+	lua_source_data_t *data = (lua_source_data_t *)malloc(sizeof(lua_source_data_t));
+	memset(data, 0, sizeof(lua_source_data_t));
 	lua_State *L = luaL_newstate();  /* create state */
 	luaL_checkversion(L);  /* check that interpreter has correct version */
 	luaL_openlibs(L);  /* open standard libraries */
@@ -87,7 +84,7 @@ void *obs_lua_source_create(obs_data_t *settings, obs_source_t *source, void *vo
 }
 
 void obs_lua_source_destroy(void *sdata) {
-	lua_source_t *data = (lua_source_t *)sdata;
+	lua_source_data_t *data = (lua_source_data_t *)sdata;
 	pthread_mutex_lock(&data->lock);
 	lua_State *L = data->L;
 	if (L) {
@@ -104,7 +101,7 @@ void obs_lua_source_destroy(void *sdata) {
 }
 
 uint32_t obs_lua_source_get_width(void *sdata) {
-	lua_source_t *data = (lua_source_t *)sdata;
+	lua_source_data_t *data = (lua_source_data_t *)sdata;
 	pthread_mutex_lock(&data->lock);
 	lua_State *L = data->L;
 	lua_getfield(L, LUA_REGISTRYINDEX, "obs_source_lua_data");
@@ -121,7 +118,7 @@ uint32_t obs_lua_source_get_width(void *sdata) {
 }
 
 uint32_t obs_lua_source_get_height(void *sdata) {
-	lua_source_t *data = (lua_source_t *)sdata;
+	lua_source_data_t *data = (lua_source_data_t *)sdata;
 	pthread_mutex_lock(&data->lock);
 	lua_State *L = data->L;
 	lua_getfield(L, LUA_REGISTRYINDEX, "obs_source_lua_data");
@@ -138,7 +135,7 @@ uint32_t obs_lua_source_get_height(void *sdata) {
 }
 
 void obs_lua_source_video_render(void *sdata, gs_effect_t *effect) {
-	lua_source_t *data = (lua_source_t *)sdata;
+	lua_source_data_t *data = (lua_source_data_t *)sdata;
 	pthread_mutex_lock(&data->lock);
 	lua_State *L = data->L;
 	lua_getfield(L, LUA_REGISTRYINDEX, "obs_source_lua_data");
@@ -191,7 +188,7 @@ int lua_obs_register_source(lua_State *L) {
 	s.get_name = obs_lua_source_get_name;
 	s.free_type_data = obs_lua_source_free_type_data;
 
-	s.create2 = obs_lua_source_create;
+	s.create = obs_lua_source_create;
 	s.destroy = obs_lua_source_destroy;
 	s.get_width = obs_lua_source_get_width;
 	s.get_height = obs_lua_source_get_height;
