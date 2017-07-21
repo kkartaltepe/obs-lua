@@ -6,9 +6,11 @@ include(${SWIG_USE_FILE})
 
 # for building seperate from obs
 include_directories(../../libobs/)
+include_directories(../../UI/obs-frontend-api/)
 include_directories(../../deps/w32-pthreads/)
 link_directories(../../deps/w32-pthreads/lib)
 link_directories(../../build/libobs)
+link_directories(../../build/UI/obs-frontend-api)
 
 set(SWIG_MODULE_obs-lua-wrap_EXTRA_DEPS obs-lua-extras.i lua_cstring.i obs-source-wrap.i)
 swig_add_library(obs-lua-wrap
@@ -24,7 +26,7 @@ add_custom_command(
 )
 
 add_library(obs-lua SHARED obs-lua.c ${SWIG_RUNTIME_HEADER})
-target_link_libraries(obs-lua obs obs-lua-wrap lua53 w32-pthreads)
+target_link_libraries(obs-lua obs obs-frontend-api obs-lua-wrap lua53 w32-pthreads)
 
 # Old test code
 # add_executable(obs-lua-console old/lua.c )

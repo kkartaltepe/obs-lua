@@ -24,6 +24,7 @@
 
 %{
 #include <util/c99defs.h>
+#include <util/darray.h>
 #include <obs.h>
 #include <obs-module.h>
 #include <obs-source.h>
@@ -33,11 +34,13 @@
 #include <obs-audio-controls.h>
 #include <obs-hotkey.h>
 #include <obs-data.h>
+#include <obs-frontend-api.h>
 #include <util/base.h>
 #include <graphics/graphics.h>
 #include <graphics/vec4.h>
 %}
 %include "util/c99defs.h"
+%include <util/darray.h>
 %include "obs.h"
 %include "obs-source.h"
 %include "obs-encoder.h"
@@ -46,6 +49,7 @@
 %include "obs-audio-controls.h"
 %include "obs-hotkey.h"
 %include "obs-data.h"
+%include "obs-frontend-api.h"
 %include <util/base.h>
 %include <graphics/graphics.h>
 %include <graphics/vec4.h>
