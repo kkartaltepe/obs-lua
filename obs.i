@@ -22,6 +22,8 @@
 %cstring_output_copy(const char **id);
 %cstring_output_copy(const char **name);
 
+%cstringlist_return_allocate(char**, bfree)
+
 %{
 #include <util/c99defs.h>
 #include <util/darray.h>

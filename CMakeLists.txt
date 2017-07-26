@@ -4,6 +4,19 @@ project(obs-lua)
 find_package(SWIG REQUIRED 3.0)
 include(${SWIG_USE_FILE})
 
+set(Qt5Widgets_DIR "C:/Qt/Qt5.7.0/5.7/msvc2015_64/lib/cmake/Qt5Widgets")
+# find_package(Qt5Core)
+# find_package(Qt5Gui)
+find_package(Qt5Widgets)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(GUI_FILES
+	lua-console.hpp
+	lua-console.cpp)
+qt5_wrap_ui(QT_UI_HEADERS forms/lua-console.ui)
+
 # for building seperate from obs
 include_directories(../../libobs/)
 include_directories(../../UI/obs-frontend-api/)
@@ -25,8 +38,9 @@ add_custom_command(
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
 )
 
-add_library(obs-lua SHARED obs-lua.c ${SWIG_RUNTIME_HEADER})
-target_link_libraries(obs-lua obs obs-frontend-api obs-lua-wrap lua53 w32-pthreads)
+add_library(obs-lua SHARED obs-lua.c lua-console.cpp ${SWIG_RUNTIME_HEADER} ${QT_UI_HEADERS})
+target_compile_features(obs-lua PRIVATE cxx_lambdas)
+target_link_libraries(obs-lua obs obs-frontend-api obs-lua-wrap lua53 w32-pthreads Qt5::Widgets)
 
 # Old test code
 # add_executable(obs-lua-console old/lua.c )
